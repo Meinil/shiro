@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.meinil.demo.mapper.UserMapper">
+	<resultMap id="userMap" type="com.meinil.demo.entity.User">
+		<id column="uid" property="id" />
+		<result column="username" property="username" />
+		<collection property="roles" javaType="list" ofType="com.meinil.demo.entity.Role">
+			<id column="id" property="id"/>
+			<result column="name" property="name" />
+		</collection>
+	</resultMap>
+	<select id="findRolesByUserId" resultMap="userMap">
+		SELECT
+			t_user.id uid, t_user.username, t_role.id, t_role.`name`
+		FROM
+			t_user
+				LEFT JOIN t_user_role ON t_user.id = t_user_role.user_id
+				LEFT JOIN t_role ON t_role.id = t_user_role.role_id
+		WHERE
+			t_user.username = #{username}
+	</select>
+	
+	<select id="findRolesByUsername" resultType="com.meinil.demo.entity.Role">
+		SELECT
+			t_role.*
+		FROM
+			t_user
+				LEFT JOIN t_user_role ON t_user.id = t_user_role.user_id
+				LEFT JOIN t_role ON t_role.id = t_user_role.role_id
+		WHERE
+			t_user.username = #{username}
+	</select>
+	
+	<select id="findPermsByRoleId" resultType="com.meinil.demo.entity.Permission">
+		SELECT
+			t_role.id tid,
+			t_role.`name` tname,
+			t_permission.id,
+			t_permission.`name`,
+			t_permission.url
+		FROM
+			t_permission
+				LEFT JOIN t_role_permission ON t_permission.id = t_role_permission.permission_id
+				LEFT JOIN t_role ON t_role.id = t_role_permission.role_id
+		WHERE
+			t_role.id =#{id};
+	</select>
+</mapper>

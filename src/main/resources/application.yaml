@@ -1,0 +1,23 @@
+server:
+    servlet:
+        context-path: /shiro
+spring:
+    mvc:
+        view:
+            prefix: /
+            suffix: .jsp
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://localhost:3306/shiro?allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+        username: root
+        password: 123456
+    redis:
+        host: 101.43.178.24
+        port: 6379
+        password: PBKXD31Zo4Tz5XVO
+        database: 0
+
+mybatis-plus:
+    configuration:
+        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
